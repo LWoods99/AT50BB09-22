@@ -1,0 +1,137 @@
+---
+title: "Paper or Download?"
+author: "Lupita Woods"
+date: "05/03/2022"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Libraries used:
+library(tidyverse)
+library(ggplot2)
+
+# Assigning the dataset file to variable books_data:
+books_data <- read.csv("bestsellers_with_categories_2022_03_27.csv")
+```
+
+## Introduction
+
+>  This project takes a look at data from Amazon's top 50 bestselling books between the years 2009 up to early 2022, with the purpose of pointing at anything significant if detected, and in general, to describe what the dataset shows.  
+
+## The Data  
+### Source:  
+- **"Amazon's Top 50 Bestselling Books 2009 - 2022"** from kaggle.com
+
+```{r echo=TRUE}
+summary(books_data)
+```
+
+## Metadata
+Columns:  
+- Name: Book title.  
+- Author: Book author.  
+- User Rating: Average user rating(out of 5 stars, 0 - 5.0).
+- Reviews: Number of reviews.   
+- Price: Rounded(whole numbers)  
+- Year: Year that the title made it to the top 50 bestselling list.  
+- Genre: Book type(fiction/non-fiction).  
+
+## Libraries Used
+
+- tydyverse  
+  
+- ggplot2  
+
+
+## Data Preparation
+  
+- Clean data.  
+
+- Titles issues.  
+  
+- User rating, reviews and price, as of data collection time.  
+
+## Questions  
+
+- Is there an overall preference between fiction vs. non-fiction?  
+- Does higher user rating indicate an specific genre?  
+- How have the genres been doing during the pandemic?
+- What does price vs. user ratings indicate?  
+
+## Data visualization  
+
+Is there any preference between Fiction vs. Non-Fiction overall?  
+  
+```{r}
+ggplot(books_data, aes(Genre)) + 
+  geom_bar(fill = "medium blue")
+```
+
+## Data visualization...  
+
+Does higher user rating indicate specific genre?  
+  
+With a boxplot:  
+
+```{r}
+
+ggplot(books_data, aes(Genre, User.Rating, fill = Genre)) + 
+  geom_boxplot()
+
+```
+  
+With an overlaid density plot:  
+
+```{r}
+
+ggplot(books_data, aes(x = User.Rating, col = Genre)) + 
+  geom_density()
+
+```
+
+
+## Data Visualization...
+Did any of the genres sell more during the  pandemic?  
+
+With a boxplot:  
+
+```{r}
+
+ggplot(books_data, aes(ymin = 2020)) + 
+  geom_boxplot(aes(x = Genre, y = Year, ymin = 2020, fill = Genre))
+  
+```
+  
+With an overlaid density plot:  
+
+```{r}
+# Trying with an overlaid density plot
+ggplot(books_data, aes(x = Year, col = Genre)) + 
+  geom_density()
+
+```
+
+## Data Visualization...
+What does Price vs. User Ratings indicate?  
+
+```{r}
+
+ggplot(books_data, aes(x = User.Rating, y = Price, color = Genre)) + 
+  geom_point()
+
+```
+
+
+## Summary
+
+- The dataset is small.  
+- There is only one categorical variable.  
+- There is a clear preference for Non-fiction titles in the data.
+- Higher ratings seem to show different genre behaviors.
+- There is some indication of fluctuation since the pandemic started.
+- A higher user rating might have some effect on price.
+
+
+
